@@ -3,19 +3,34 @@
 ## Project Background
 
 Olist founded in 2015 is the largest department store in Brazilian marketplaces, it connects small business and allows sellers offer their products while Olist is in charge of logistics.
-This project analyzes sales from 2016 - 2018. The idea is to ...
+This project analyzes sales from 2016 - 2018. The company has significant amount of records (100k) in orders, customers, sellers, products, locations and payments details. This project throughly analyzes and sythezises the data in order to obtain meaningful insights that will lead to improve performance in sales and different areas of the company.
 
-This project analyzes recent sales and operational data to identify the key factors behind the downturn and provide insights to guide new marketing strategies and strengthen the company’s position in the beauty market.
+**Insights and recommendations focus on the following key analytical areas:**
 
-**Insights and recommendations focus on the following key areas:**
+- **Category 1:** Historical Sales Performance
+Comprehensive evaluation of historical sales behavior across orders, sellers, states, and product categories to identify trends and seasonal patterns.
 
-- **Category 1:** Evaluation of historical sales behavior focused on order volume, customer activity, profit, and total sales, identifying patterns that explain recent fluctuations.
-- **Category 2:** Product-level performance analysis categorizing products by high performance and understanding their contribution to total sales.
-- **Category 3:** Deep customer analysis to understand customer behavior and how a segment contributes to overall sales.
-- **Category 4:** Data-driven guidance on marketing actions and campaigns designed to improve sales performance, customer retention, and brand visibility.
+- **Category 2:**  Product and Category Performance
+In-depth analysis of product and category-level performance to determine which categories drive the highest sales for both individual sellers and the company overall.
 
-The SQL queries used to clean and explore the data can be found here:  
-[SQL Cleaning and Exploration Queries](https://github.com/Emma922/Asprice-makeup-project/tree/d1281bc116911a94f7f969d4c268b05e2a9f3afb/sql.cleaning_explore)
+- **Category 3:**  Customer Behavior and Segmentation
+Detailed customer analysis aimed at understanding purchasing behavior, identifying customer segments, and evaluating how each segment contributes to total sales and profitability.
+
+- **Category 4:**  Geographic Sales Distribution
+Assessment of sales performance across states and cities, including identification of top-performing sellers and regions with growth opportunities.
+
+- **Category 5:**  Review Score and Service Quality Analysis
+Examination of review scores across categories and sellers to uncover service issues, product quality concerns, and improvement opportunities.
+
+- **Category 6:**  Customer Experience Risk Factors
+Identification of behavioral and operational patterns that may lead to negative customer experiences, enabling proactive mitigation.
+
+- **Category 7:**  Strategic Recommendations
+Development of data-driven guidance to support business decisions aimed at enhancing customer satisfaction, strengthening seller engagement, and increasing overall sales performance.
+
+
+The python code to make exploratory analysis and cleaning the data can be found here:  
+[Python Cleaning and Exploration Code]([https://github.com/Emma922/Asprice-makeup-project/tree/d1281bc116911a94f7f969d4c268b05e2a9f3afb/sql.cleaning_explore](https://github.com/Emma922/Olist-Project/blob/090d535232e532ff92548e03ec052fc5ee41289e/Olist_data_cleaning.ipynb))
 
 Targeted SQL queries for various business questions can be found here:  
 [SQL Business Questions Queries](https://github.com/Emma922/Asprice-makeup-project/tree/f88984d9cb5a02049d58ad5cb888523d7cdd46bf/sql%20business%20questions)
