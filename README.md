@@ -35,6 +35,9 @@ The python code to make exploratory analysis and cleaning the data can be found 
 Targeted SQL queries for various business questions can be found here:  
 [SQL Business Questions Queries](https://github.com/Emma922/Asprice-makeup-project/tree/f88984d9cb5a02049d58ad5cb888523d7cdd46bf/sql%20business%20questions)
 
+![Olist Dataset](https://github.com/user-attachments/assets/f20fffce-545a-40ff-b4c8-8bc78a7c2f94)
+
+
 Interactive Tableau dashboards for customer analysis and sales/product behavior are available here:  
 - [Customer Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/AspricemakeupDasboard/CustomerDashboard)  
 - [Sales and Products Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/AspricemakeupSalesProductsDashboard/SalesProductsDashboard)
