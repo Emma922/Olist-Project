@@ -35,7 +35,11 @@ The python code to make exploratory analysis and cleaning the data can be found 
 Targeted SQL queries for various business questions can be found here:  
 [SQL Business Questions Queries](https://github.com/Emma922/Asprice-makeup-project/tree/f88984d9cb5a02049d58ad5cb888523d7cdd46bf/sql%20business%20questions)
 
+Olist Dataset:
 ![Olist Dataset](https://github.com/user-attachments/assets/f20fffce-545a-40ff-b4c8-8bc78a7c2f94)
+- General_orders table cannot be connected with the other tables
+- Explanation why some columns are not PK can be found here:  [link sql assing PK and FK]
+
 
 
 Interactive Tableau dashboards for customer analysis and sales/product behavior are available here:  
