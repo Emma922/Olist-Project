@@ -30,7 +30,7 @@ Development of data-driven guidance to support business decisions aimed at enhan
 
 
 The python code to make exploratory analysis and cleaning the data can be found here:  
-[Python Cleaning and Exploration Code](https://github.com/Emma922/Olist-Project/blob/ab41c29f19c8401070e29ec66019317f32da2e1c/Olist_EDA_cleaning.ipynb)
+[Python Cleaning and Exploration Code](https://github.com/Emma922/Olist-Project/blob/302c4819153578439040c44af7a7dab13978ef14/Olist_EDA_cleaning.ipynb)
 
 Targeted SQL queries for various business questions can be found here:  
 [SQL Business Questions Queries](https://github.com/Emma922/Asprice-makeup-project/tree/f88984d9cb5a02049d58ad5cb888523d7cdd46bf/sql%20business%20questions)
