@@ -1,0 +1,127 @@
+-- ============================================================
+/* ENSURE DATA INTEGRITY
+   Goal: Identify which columns can be used as Primary Keys (PK)
+         or Foreign Keys (FK). */
+--=============================================================
+
+
+--Check Order_id in Orders
+
+SELECT 
+    COUNT(*) AS occurrences,
+    order_id
+FROM dbo.orders
+GROUP BY order_id
+HAVING COUNT(*) > 1;
+
+/*
+   - order_id has duplicates, probably each order_id represents
+   one product in an order
+   - Therefore, order_id CANNOT be a Primary Key for orders.
+   - On the other hand we can create FK to connect it with other tables.
+*/
+
+-- Create FKs
+
+ALTER TABLE dbo.orders
+ADD CONSTRAINT FK_orders_customer FOREIGN KEY (customer_id)
+REFERENCES dbo.customers (customer_id)
+
+ALTER TABLE dbo.orders
+ADD CONSTRAINT FK_orders_products FOREIGN KEY (product_id)
+REFERENCES dbo.products (product_id)
+
+-- There are product_id in orders that are not products table
+
+SELECT *
+FROM orders o
+LEFT JOIN [products ] p
+ON o.product_id = p.product_id
+WHERE p.product_id IS NULL
+
+/* In order to avoid remove those sales we are going to add
+these products_id with 0 in all measures and then we ask to the sellers the measures of the products.
+*/
+
+INSERT INTO [products ]
+VALUES
+    ('c9e2ca19fa2d9cc672632328fd52b036',0,0,0,0),
+    ('4fee671ea459ebc96546523917e254a5',0,0,0,0),
+    ('09ff539a621711667c43eba6a3bd8466',0,0,0,0),
+    ('35b3dfb985d0487fdf185b326d977b49',0,0,0,0),
+    ('031d3647a223d247e0379567d0f2d0dd',0,0,0,0),
+    ('0e453d51e0da8f98a7297b61328d9a8c',0,0,0,0),
+    ('711ffb7574aa22c89aa744dd74fefd5c',0,0,0,0)
+
+--Now we create the FK succesfully
+
+
+-- 2. Check CUSTOMER_ID in CUSTOMERS
+
+SELECT 
+    COUNT(*) AS occurrences,
+    customer_id
+FROM dbo.customers
+GROUP BY customer_id
+HAVING COUNT(*) > 1;
+
+/*
+   - customer_id contains no duplicates.
+   - This means customer_id is a valid Primary Key for customers.
+*/
+
+-- Create the PK for customer_id
+
+ALTER TABLE dbo.customers
+ADD CONSTRAINT PK_customers PRIMARY KEY (customer_id)
+
+
+;
+/* --------------------------------------------------------
+   3. Check PRODUCT_ID in PRODUCTS for uniqueness
+   -------------------------------------------------------- */
+SELECT 
+    COUNT(*) AS occurrences,
+    product_id
+FROM dbo.products
+GROUP BY product_id
+HAVING COUNT(*) > 1;
+/*
+   - product_id contains no duplicates.
+   - This means product_id can be used safely as the PK
+     of the products table and as a Foreign Key elsewhere.
+*/
+
+--=============================
+--Create the PK for product_id
+--=============================
+
+ALTER TABLE dbo.products
+ADD CONSTRAINT PK_products PRIMARY KEY (product_id)
+
+
+/* --------------------------------------------------------
+   4. Check SELLER_ID in SELLERS
+   -------------------------------------------------------- */
+SELECT 
+    COUNT(*) AS occurrences,
+    seller_id
+FROM dbo.sellers
+GROUP BY seller_id
+HAVING COUNT(*) > 1;
+
+/*
+-- We can't create a PK for seller_id because there are duplicates
+-- product_id is neccesary to add a FK */
+
+--FK for product_id
+
+ALTER TABLE dbo.sellers
+ADD CONSTRAINT FK_sellers_products FOREIGN KEY (product_id)
+REFERENCES dbo.products (product_id)
+
+/*
+- Now we created the PK and FK along the tables for ensure as possible data integrity in the dataset
+- Can't be possible add a PK in order_id in order table
+- Some orders (10-15) in sellers doesn't exists in orders table, but, we leave it like it is in order to no eliminate data unnecessarily
+- Payments table has about 75% of data that don't match with orders table, for that the analysis will be restricted
