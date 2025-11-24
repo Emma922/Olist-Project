@@ -1,0 +1,346 @@
+--====================
+--Exploratory Analysis
+--====================
+
+--Explore all objects in the Database
+SELECT * FROM INFORMATION_SCHEMA.TABLES
+
+--Explore all columns in the tables
+SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+
+
+
+--  DIMENSION EXPLORATION
+
+-- Geolocation dimensions
+SELECT DISTINCT city      FROM geolocation ORDER BY city;
+SELECT DISTINCT state    FROM geolocation ORDER BY state;
+
+-- Product and payment dimensions
+SELECT DISTINCT product_category_name  FROM orders ORDER BY product_category_name;
+SELECT DISTINCT payment_type     FROM payments ORDER BY payment_type;
+
+
+-- DATE EXPLORATION
+
+--Find the earliest and the latest order
+--How many months of orders are available
+SELECT 
+    MAX(order_purchase_timestamp) AS EarliestOrder,
+    MIN(order_purchase_timestamp) AS LatestOrder,
+    DATEDIFF(MONTH,MIN(order_purchase_timestamp),MAX(order_purchase_timestamp)) AS Date_Diff_Months
+FROM Orders
+
+
+-- MEASURES EXPLORATION
+
+--Total Sales
+SELECT 
+    SUM(order_products_value) AS TotalSales
+FROM Orders 
+
+--Quantity of orders
+SELECT 
+    COUNT (DISTINCT(order_id)) AS [Quantity of Orders]
+FROM Orders
+
+--Average order value (AOV)
+
+WITH main_query AS (
+    SELECT 
+        order_id,
+        SUM(order_products_value) AS order_value
+    FROM orders
+    GROUP BY order_id
+)
+SELECT AVG(order_value) AS AOV
+FROM main_query
+
+/* Each order represent value per singular product
+so, we sum the value in order to find the total per each order and then we make the avg to encounter AOV */
+
+--Total Number of products
+
+SELECT 
+    COUNT (*) AS NumberofProducts
+FROM Products
+
+--Number of Customers
+
+SELECT 
+    COUNT(DISTINCT(customer_unique_id)) AS TotalNumberofCustomers
+FROM Customers
+
+--Average quantity of products per order
+
+WITH main_query AS (
+    SELECT 
+        order_id,
+        SUM(order_items_qty) * 1.0 AS TotalQuantity
+    FROM Orders
+    GROUP BY order_id
+)
+SELECT AVG(TotalQuantity) AS Avg_Qty
+FROM main_query;
+
+--order_items_qty is nvarchar we need to change it as a INT permanently
+ALTER TABLE orders
+ALTER COLUMN order_items_qty INT
+
+
+--Avg revenue per customer
+
+SELECT 
+    ROUND(AVG(Revenue),1) AS AverageRevenuepercustomers
+FROM (
+    SELECT 
+        SUM(order_products_value) AS Revenue,
+        customer_id
+    FROM Orders 
+    GROUP BY customer_id)t
+
+-- GENERATE A REPORT
+
+SELECT 
+    'Total Sales' AS Measure_name,
+    ROUND(SUM(order_products_value),0) AS TotalSales
+FROM Orders 
+
+    UNION ALL
+
+SELECT 
+    'Quantity of orders',
+    COUNT (DISTINCT(order_id)) AS [Quantity of Orders]
+FROM Orders
+
+    UNION ALL
+
+SELECT 
+    'AOV',
+    ROUND(AVG(order_value),0) AS AOV
+FROM ( 
+    SELECT 
+        order_id,
+        SUM(order_products_value) AS order_value
+    FROM orders
+    GROUP BY order_id)t
+
+    UNION ALL
+
+SELECT 
+    'Nr. Of Products',
+    COUNT (*) AS NumberofProducts
+FROM Products
+
+    UNION ALL 
+
+SELECT 
+    'Nr. Of Customers',
+    COUNT(DISTINCT(customer_unique_id)) AS TotalNumberofCustomers
+FROM Customers
+
+    UNION ALL
+
+SELECT 
+    'Avg_qty_per_order',
+    ROUND(AVG(TotalQuantity),1) AS Avg_Qty
+FROM (
+    SELECT 
+        order_id,
+        SUM(order_items_qty) * 1.0 AS TotalQuantity
+    FROM Orders
+    GROUP BY order_id)t
+
+    UNION ALL
+
+SELECT 
+    'Avg Rev. per Cust', 
+    ROUND(AVG(Revenue),1) AS AverageRevenuepercustomers
+FROM (
+    SELECT 
+        SUM(order_products_value) AS Revenue,
+        customer_id
+    FROM Orders 
+    GROUP BY customer_id)t
+
+
+
+-- MAGNITUDES EXPLORATION
+
+
+-- Total customers by state
+
+SELECT customer_state,
+COUNT (customer_id) AS Number_Cust
+FROM orders
+GROUP BY customer_state
+ORDER BY Number_Cust DESC
+
+-- Total customers by city
+
+SELECT customer_city,
+COUNT (DISTINCT (customer_id)) Number_Cust
+FROM orders
+GROUP BY customer_city
+ORDER BY Number_Cust DESC
+
+--Total Products by seller
+
+SELECT seller_id,
+COUNT(DISTINCT(product_id)) AS TotalProducts
+FROM sellers
+GROUP BY seller_id
+ORDER BY TotalProducts DESC
+ 
+--Avg Review per seller
+
+SELECT 
+    s.seller_id,
+    ROUND(AVG(o.review_score),2) AS Avg_review_Sc
+FROM orders o
+LEFT JOIN sellers s ON o.order_id = s.order_id
+GROUP BY s.seller_id
+HAVING COUNT(o.order_id) > 20
+ORDER BY Avg_review_Sc DESC
+
+/* Only sellers with more than 20 completed orders were included in the analysis to ensure statistically reliable review averages. 
+Sellers with fewer orders do not provide enough customer interactions to be meaningfully compared in terms of satisfaction. */
+
+--Review score needs to be changed to decimal
+
+ALTER TABLE orders
+ALTER COLUMN review_score DECIMAL(10,2)
+
+
+-- Avg orders per seller
+WITH main_query AS (
+    SELECT 
+        s.seller_id,
+        COUNT(DISTINCT (o.order_id)) AS number_orders
+    FROM Orders o
+    LEFT JOIN sellers s
+    ON o.order_id = s.order_id
+    GROUP BY s.seller_id
+)
+SELECT 
+    AVG(number_orders) AS Avg_Number_Orders
+FROM main_query
+
+
+--Avg price per category
+SELECT product_category_name,
+    (SUM(order_products_value)/COUNT(product_id)) AS AvgPrice
+FROM orders
+GROUP BY product_category_name
+HAVING COUNT(product_id) > 3
+ORDER BY AvgPrice DESC
+
+--Total Revenue generated for each category
+SELECT 
+    product_category_name,
+    SUM(order_products_value) AS Revenue
+FROM Orders 
+GROUP BY product_category_name
+ORDER BY Revenue DESC
+
+--Total revenue generated for each city
+SELECT 
+    customer_city,
+    SUM(order_products_value) AS Revenue
+FROM Orders 
+GROUP BY customer_city
+ORDER BY Revenue DESC
+
+--Total Revenue generated for each region
+SELECT 
+    customer_state,
+    SUM(order_products_value) AS Revenue
+FROM Orders 
+GROUP BY customer_state
+ORDER BY Revenue DESC
+
+--Distribution of sold items across regions
+SELECT 
+    customer_state,
+    COUNT (product_id) AS SoldItems
+FROM Orders 
+GROUP BY customer_state
+ORDER BY SoldItems DESC
+
+--Total Customers for each region
+SELECT 
+    customer_state,
+    COUNT(customer_id) as TotalCustomers
+FROM orders
+GROUP BY customer_state
+ORDER BY TotalCustomers DESC
+
+--Total Revenue by each customer
+SELECT 
+    customer_id,
+    SUM(order_products_value) AS Revenue
+FROM orders
+GROUP BY customer_id
+ORDER BY Revenue DESC
+
+--Total Revenue per product
+SELECT 
+    product_id,
+    ROUND(SUM(order_products_value),0) AS Revenue
+FROM orders
+GROUP BY product_id
+ORDER BY Revenue DESC
+
+--=======
+--Ranking
+--=======
+
+--Top 5 products which generates highest revenue
+SELECT TOP 5
+    RANK() OVER(ORDER BY Revenue DESC) AS Ranking,
+    *
+FROM
+(SELECT 
+    product_id,
+    ROUND(SUM(order_products_value),0) AS Revenue
+FROM orders
+GROUP BY product_id)t
+
+--Worst Performing products in terms of sales
+
+SELECT TOP 5
+    RANK() OVER(ORDER BY Revenue) AS Ranking,
+    *
+FROM
+(SELECT 
+    product_id,
+    ROUND(SUM(order_products_value),0) AS Revenue
+FROM orders
+GROUP BY product_id)t
+
+--Top 5 customers who have generated the highest revenue
+
+SELECT TOP 5
+    RANK() OVER(ORDER BY Revenue DESC) AS Ranking,
+    *
+FROM
+(SELECT 
+    customer_id,
+    SUM(order_products_value) AS Revenue
+FROM orders
+GROUP BY customer_id)t
+
+--Top 5 sellers who have generated the highest revenue
+
+SELECT TOP 5
+    RANK() OVER(ORDER BY Revenue DESC) AS Ranking,
+    *
+FROM (
+SELECT 
+    seller_id,
+    SUM(o.order_products_value) AS Revenue
+FROM orders o
+LEFT JOIN sellers s
+ON o.order_id = s.order_id
+GROUP BY seller_id
+)t
