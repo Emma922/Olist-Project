@@ -10,7 +10,7 @@ This project analyzes sales from 2016 - 2018. The company has significant amount
 - **Category 1:** Historical Sales Performance
 Comprehensive evaluation of historical sales behavior across orders, sellers, states, and product categories to identify trends and seasonal patterns.
 
-- **Category 2:**  Product and Category Performance
+- **Category 2 Product and Category Performance:** 
 In-depth analysis of product and category-level performance to determine which categories drive the highest sales for both individual sellers and the company overall.
 
 - **Category 3:**  Customer Behavior and Segmentation
