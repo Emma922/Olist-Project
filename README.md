@@ -7,25 +7,25 @@ This project analyzes sales from 2016 - 2018. The company has significant amount
 
 **Insights and recommendations focus on the following key analytical areas:**
 
-- **Category 1:** Historical Sales Performance
+- **Category 1 Historical Sales Performance:**
 Comprehensive evaluation of historical sales behavior across orders, sellers, states, and product categories to identify trends and seasonal patterns.
 
 - **Category 2 Product and Category Performance:** 
 In-depth analysis of product and category-level performance to determine which categories drive the highest sales for both individual sellers and the company overall.
 
-- **Category 3:**  Customer Behavior and Segmentation
+- **Category 3 Customer Behavior and Segmentation:**
 Detailed customer analysis aimed at understanding purchasing behavior, identifying customer segments, and evaluating how each segment contributes to total sales and profitability.
 
-- **Category 4:**  Geographic Sales Distribution
+- **Category 4 Geographic Sales Distribution:**
 Assessment of sales performance across states and cities, including identification of top-performing sellers and regions with growth opportunities.
 
-- **Category 5:**  Review Score and Service Quality Analysis
+- **Category 5 Review Score and Service Quality Analysis:**
 Examination of review scores across categories and sellers to uncover service issues, product quality concerns, and improvement opportunities.
 
-- **Category 6:**  Customer Experience Risk Factors
+- **Category 6 Customer Experience Risk Factors:**
 Identification of behavioral and operational patterns that may lead to negative customer experiences, enabling proactive mitigation.
 
-- **Category 7:**  Strategic Recommendations
+- **Category 7 Strategic Recommendations:** 
 Development of data-driven guidance to support business decisions aimed at enhancing customer satisfaction, strengthening seller engagement, and increasing overall sales performance.
 
 
