@@ -1,0 +1,274 @@
+--====================================================================================================
+/* Category 1: Historical Sales Performance Comprehensive evaluation of historical sales behavior 
+across customers, sellers, states, and product categories to identify trends and seasonal patterns. */
+--====================================================================================================
+
+--=================
+--Changes over Time
+--=================
+
+--Sales and Customer Performance over time
+
+SELECT
+	MONTH(o.order_purchase_timestamp) AS Month,
+	ROUND(SUM(oi.price),0) AS Sales,
+	COUNT(DISTINCT c.customer_id) AS Nr_Customers
+FROM dbo.order_items oi
+INNER JOIN dbo.orders o 
+ON oi.order_id = o.order_id
+INNER JOIN dbo.customers c 
+ON o.customer_id = c.customer_id
+GROUP BY
+MONTH(o.order_purchase_timestamp)
+ORDER BY MONTH(o.order_purchase_timestamp)
+
+/* We can see that there are some months with more sales such as: March, August and May. In general we can assure that in the middle of the year 
+we have more sales than the months at the beggining and at the end of the year */
+
+--===========================
+--Running Sales and Customers
+--===========================
+
+-- Total Customers Performance over time
+
+WITH main_query AS (
+SELECT 
+	MONTH(o.order_purchase_timestamp) AS Month,
+	COUNT(DISTINCT c.customer_id) AS Nr_Customers
+FROM dbo.orders o
+INNER JOIN dbo.customers c 
+ON o.customer_id = c.customer_id
+GROUP BY MONTH(o.order_purchase_timestamp)
+)
+SELECT 
+	*,
+	SUM(Nr_Customers) OVER(ORDER BY Month) AS Running_Customers,
+	AVG(Nr_Customers) OVER() AS Avg,
+	CASE WHEN (Nr_Customers - AVG(Nr_Customers) OVER()) > 0 THEN 'Above Avg' 
+	WHEN (Nr_Customers - AVG(Nr_Customers) OVER()) < 0 THEN 'Below Avg' 
+	ELSE 'Avg' END AS AvgChange
+FROM main_query
+
+-- With this query we can understand how the customers have grown over time
+
+--=============================
+--Running Total Sales per month
+--=============================
+
+SELECT 
+	*,
+	SUM(Sales) OVER(ORDER BY Month) AS RunningTotalSales
+FROM ( 
+SELECT
+	MONTH(o.order_purchase_timestamp) AS Month,
+	ROUND(SUM(oi.price),0) AS Sales
+FROM dbo.order_items oi
+INNER JOIN dbo.orders o 
+ON oi.order_id = o.order_id
+GROUP BY
+MONTH(o.order_purchase_timestamp))t
+
+-- With this query we can understand how the sales have grown over time
+
+
+--=============================================================
+/*Monthly performance of sales by comparing their sales to both 
+the avg sales performance and the previous month's sales*/
+--=============================================================
+
+WITH main_query AS (
+SELECT 
+	*,
+	AVG(Sales) OVER() AS AvgSales,
+	LAG(Sales) OVER(ORDER BY Month) AS pm_sales
+FROM (
+	SELECT
+		MONTH(o.order_purchase_timestamp) AS Month,
+		ROUND(SUM(oi.price),0) AS Sales
+	FROM dbo.order_items oi
+	INNER JOIN dbo.orders o 
+	ON oi.order_id = o.order_id
+	GROUP BY
+	MONTH(o.order_purchase_timestamp))t
+)
+SELECT 
+	*,
+	CASE WHEN Sales > AvgSales THEN 'Above Avg'
+	WHEN Sales < AvgSales THEN 'Below Avg'
+	ELSE 'Avg' END AS AvgChange,
+	CASE WHEN Sales > pm_sales THEN 'Increase'
+	WHEN Sales < pm_sales THEN 'Decrease'
+	ELSE 'No Change' END AS Sales_vs_pm
+FROM main_query
+
+-- Here we can compare the months with the avg and previous month
+
+-- 2nd and 3rd quarter shows better sales performance than 1st and 4th quarter
+
+--======================================================================
+/*Monthly performance of sellers by comparing their sales to both 
+the avg sales performance of the products and the previous month's sales*/
+--======================================================================
+
+WITH main_query AS (
+SELECT
+	*,
+	AVG(Sales) OVER(PARTITION BY seller_id) AS Avg_Sales,
+	LAG(Sales) OVER(PARTITION BY seller_id ORDER BY Month) AS pm_Sales
+FROM (
+SELECT 
+	MONTH(o.order_purchase_timestamp) AS Month,
+	oi.seller_id,
+	SUM(oi.price) AS Sales
+FROM dbo.order_items oi
+INNER JOIN dbo.orders o 
+ON oi.order_id = o.order_id
+GROUP BY MONTH(o.order_purchase_timestamp),
+oi.seller_id)t
+)
+SELECT
+	*,
+	CASE WHEN Sales > Avg_Sales THEN 'Above Avg'
+	WHEN Sales = Avg_Sales THEN 'Avg'
+	ELSE 'Below Avg' END AS AvgChange,
+	CASE WHEN Sales > pm_Sales THEN 'Increase'
+	WHEN Sales < pm_Sales THEN 'Decrease'
+	ELSE 'No change' END AS SalesChange
+FROM main_query
+WHERE seller_id = '01fdefa7697d26ad920e9e0346d4bd1b'
+ORDER BY 
+seller_id, Month
+
+/* Here we can query how each sellers has changes over time in order to understand 
+the seasonality patterns for each seller*/
+
+--For ex: seller '01fdefa7697d26ad920e9e0346d4bd1b' sells significantly more in months 7, 8
+
+
+
+--=========================
+--Monthly State Performance 
+--=========================
+
+WITH main_query AS (
+SELECT
+	*,
+	AVG(Sales) OVER(PARTITION BY customer_state) AS Avg_Sales,
+	LAG(Sales) OVER(PARTITION BY customer_state ORDER BY Month) AS pm_Sales
+FROM (
+SELECT 
+	c.customer_state,
+	MONTH(o.order_purchase_timestamp) AS Month,
+	SUM(oi.price) AS Sales
+FROM dbo.order_items oi
+INNER JOIN dbo.orders o 
+ON oi.order_id = o.order_id
+INNER JOIN dbo.customers c 
+ON o.customer_id = c.customer_id
+GROUP BY MONTH(o.order_purchase_timestamp),
+c.customer_state)t
+)
+SELECT
+	*,
+	CASE WHEN Sales > Avg_Sales THEN 'Above Avg'
+	WHEN Sales = Avg_Sales THEN 'Avg'
+	ELSE 'Below Avg' END AS AvgChange,
+	CASE WHEN Sales > pm_Sales THEN 'Increase'
+	WHEN Sales < pm_Sales THEN 'Decrease'
+	ELSE 'No change' END AS SalesChange
+FROM main_query
+WHERE customer_state = 'SP'
+ORDER BY 
+customer_state, Month
+
+/* With this query we can find out what are the seasonal patterns of each state
+for example SP has a  better performance in sales the two and third quarter, while the last quarter are the worst performer */
+
+
+--==============================
+--Category Performance per month
+--==============================
+
+WITH main_query AS (
+SELECT
+	*,
+	AVG(Sales) OVER(PARTITION BY product_category_name) AS Avg_Sales,
+	LAG(Sales) OVER(PARTITION BY product_category_name ORDER BY Month) AS pm_Sales
+FROM (
+SELECT 
+	p.product_category_name,
+	MONTH(o.order_purchase_timestamp) AS Month,
+	ROUND(SUM(oi.price),0) AS Sales
+FROM dbo.order_items oi
+INNER JOIN dbo.orders o 
+ON oi.order_id = o.order_id
+INNER JOIN dbo.products p 
+ON oi.product_id = p.product_id
+GROUP BY MONTH(o.order_purchase_timestamp),
+p.product_category_name)t
+)
+SELECT
+	*,
+	CASE WHEN Sales > Avg_Sales THEN 'Above Avg'
+	WHEN Sales = Avg_Sales THEN 'Avg'
+	ELSE 'Below Avg' END AS AvgChange,
+	CASE WHEN Sales > pm_Sales THEN 'Increase'
+	WHEN Sales < pm_Sales THEN 'Decrease'
+	ELSE 'No change' END AS SalesChange
+FROM main_query
+WHERE product_category_name IS NOT NULL 
+ORDER BY 
+product_category_name, Month
+
+/* With this query we can know the sales behavior per month for every category */
+--We can filter per category in order to retrieve only the sales behavior for a specific category
+/*
+-- Some seasonality insights per categories
+- for instance alimentos category has a bad performance in 4th quarter of the year, while the 1st quarter is the better 
+- beleza_saude sells much more from the 2nd to 8th month of the year
+- cama mesa banho shows almost a similar behavior as beleza_saude, except that the sales are more near to the avg,
+but still having more sales in the middle part of the year
+- esporte lazer has a bad sales performance in the 4th quarter of the year
+
+- Since the dataset only extends to September 2018, we lack information on the final quarter of that year, for that some 
+seasonality patterns that we found cannot be realiable */
+
+
+--====================================
+--Year over year Seasonality Sales Detection
+--====================================
+
+WITH main_query AS (
+SELECT 
+	*,
+	LAG(Sales) OVER(PARTITION BY Month ORDER BY Year) AS py_sales
+FROM (
+	SELECT
+		YEAR(o.order_purchase_timestamp) AS Year,
+		MONTH(o.order_purchase_timestamp) AS Month,
+		ROUND(SUM(oi.price),0) AS Sales
+	FROM dbo.order_items oi
+	INNER JOIN dbo.orders o 
+	ON oi.order_id = o.order_id
+	GROUP BY
+	YEAR(o.order_purchase_timestamp),
+	MONTH(o.order_purchase_timestamp))t
+)
+SELECT 
+	*,
+	Sales - py_sales AS YoY_Change,
+	((Sales - py_sales)*100)/ py_sales AS YoY_Percent
+FROM main_query
+
+/* All months shows a consistent growth per year, Indicating a general growth trend in sales per year,
+This suggests that Olist has been strengthening its presence in the Brazilian market over time. Additionally,
+November contains only data for 2017, therefore, we can't perform a year-over-year comparison, September contains limited data from 2018 
+which is insufficient to compare it with previous years
+
+
+- Based on the available data, we can infer that Olist may exhibit a seasonality pattern during the first 2 quarters of the year. However, due to the limited data across full yearly cycles, 
+this conclusion cannot be confirmed with certainty. Since the dataset only extends to September 2018, we lack information on the final quarter of that year,
+preventing a complete comparison between first-quarter and last-quarter sales performance.
+
+- The increase in sales observed during the first months of 2018 may be attributed to Olist�s overall growth rather than to a definitive seasonality pattern. 
+With the current dataset, we cannot reliably distinguish between structural growth and seasonal effects.
