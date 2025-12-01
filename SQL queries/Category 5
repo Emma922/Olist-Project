@@ -1,0 +1,78 @@
+--===========================================================================================================
+/* Category 5 Review Score and Service Quality Analysis: Examination of review scores across 
+categories and sellers to uncover service issues, product quality concerns, and improvement opportunities. */
+--===========================================================================================================
+
+--Review scores across categories
+
+SELECT 
+	p.product_category_name,
+	AVG(oe.review_score) AS AvgReviewScore,
+	COUNT(oi.order_id) AS TotalOrders
+FROM order_reviews oe
+INNER JOIN order_items oi
+ON oe.order_id = oi.order_id
+INNER JOIN [products ] p
+ON oi.product_id = p.product_id
+GROUP BY p.product_category_name
+HAVING COUNT(oi.order_id) > 100
+ORDER BY AvgReviewScore DESC
+
+--Review scores across sellers
+
+SELECT 
+	oi.seller_id,
+	AVG(oe.review_score) AS AvgReviewScore,
+	COUNT(oi.order_id) AS CountOrders
+FROM order_reviews oe
+INNER JOIN order_items oi
+ON oe.order_id = oi.order_id
+GROUP BY oi.seller_id
+HAVING COUNT(oi.order_id) > 300
+ORDER BY AvgReviewScore DESC
+
+--Reviwe score of orders without delay
+
+SELECT
+	AVG(oe.review_score) AS AvgScore
+FROM order_reviews oe
+INNER JOIN orders o
+ON oe.order_id = o.order_id
+WHERE order_delivered_customer_date < order_estimated_delivery_date
+
+
+-- Review score of orders with delay
+SELECT
+	AVG(oe.review_score) AS AvgScore
+FROM order_reviews oe
+INNER JOIN orders o
+ON oe.order_id = o.order_id
+WHERE order_delivered_customer_date > order_estimated_delivery_date
+
+
+/*
+
+--Interpretation:
+
+- Product categories with the lowest average review scores�such as fraldas_higiene and moveis_escritorio� indicate potential issues related to 
+product quality, packaging, or inaccurate product descriptions. These categories may require supplier evaluation or corrective quality measures.
+
+- Several sellers show low average ratings (<3.0), suggesting operational deficiencies such as late shipments, poor handling, or inconsistent service. 
+These sellers should be monitored closely and may require training or performance improvement plans.
+
+- Delivery delays significantly reduce customer satisfaction, as evidenced by the lower average review scores for delayed orders.
+This reinforces the importance of logistics efficiency and accurate delivery-time estimates.
+
+- Categories with both high sales volume and high review scores represent strong performance areas. 
+In contrast, categories with low review scores signal opportunities for targeted service or product improvements.
+
+- Moveis_escritorio is a high-priority category for intervention because it combines low review scores with high order volume, 
+meaning a large number of customers are being negatively affected.
+
+- Cama_mesa_banho is another key category: despite being among the highest in revenue and total orders, it also shows one of the lowest average review scores. 
+This mismatch indicates a risk of long-term customer dissatisfaction in a high-impact category.
+
+- Seller 7c67e1448b00f6e969d365cea6b010ab stands out as a critical case: despite selling over 1,300 products, 
+the seller maintains the lowest average review scores, suggesting severe operational or quality-related issues.
+
+- Improving logistics reliability and monitoring low-performing sellers could significantly raise customer satisfaction across the platform.
