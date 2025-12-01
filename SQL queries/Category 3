@@ -1,0 +1,218 @@
+--===============================================================================================================
+/* Category 3 Customer Behavior and Segmentation: Detailed customer analysis aimed at understanding 
+purchasing behavior, identifying customer segments, and evaluating how each segment contributes to total sales */
+--===============================================================================================================
+
+--RFM Segmentation (Recency, Frequency, Monetary)
+
+WITH rfm AS (
+SELECT
+    c.customer_unique_id,
+    DATEDIFF(DAY, MAX(o.order_purchase_timestamp), '2018-10-17') AS Recency,
+    COUNT(DISTINCT o.order_id) AS Frequency,
+    SUM(oi.price) AS Monetary
+FROM dbo.customers c
+INNER JOIN dbo.orders o
+ON c.customer_id = o.customer_id
+INNER JOIN dbo.order_items oi
+ON o.order_id = oi.order_id
+GROUP BY c.customer_unique_id
+), group_dataset AS (
+SELECT *,
+   NTILE(3) OVER (ORDER BY Recency ASC) AS R_Score,
+   NTILE(3) OVER (ORDER BY Monetary DESC) AS M_Score,
+   NTILE(3) OVER (ORDER BY Frequency DESC) AS F_Score
+FROM rfm )
+SELECT 
+    *,
+    CASE WHEN R_Score = 1  AND F_Score = 1 AND M_Score = 1 THEN 'Best Customers'
+    WHEN R_Score = 1 AND (F_Score = 1 OR M_Score = 1) THEN 'Potential Loyal Customer'
+    WHEN R_Score = 3 AND F_Score != 1 AND M_Score != 3 THEN 'At Risk'
+    WHEN Monetary > 3000 THEN 'High spender customer'
+    ELSE 'Other' END AS Customer_Segmentation
+FROM group_dataset
+ORDER BY Frequency DESC
+
+--===================================================================================================================================================
+/* We categorize customers into 
+- Best Customers: They have bought with frequency, last order was recently and have generated high revenue for the company
+- Potential Loyal customer: They have generated high revenue or have bought more than once and the last order was recently
+- At Risk: They are customers that have bought more than once and have a valuable characteristics for the company such as, high monetary contribution
+but a long time has passed since their last purchase
+- High spender Customers: Customers who have spent more than 3000
+--===================================================================================================================================================
+
+--Results:
+
+- There are few 'Best Customers' based on this segmentation
+- Customers who have contributed the most to the revenue have not made additional purchases, most of them bought only once.
+The others are at risk of being lost
+- High spender customers should ideally become potentially Loyal or Best customers for the company 
+
+--Interpretation and Actions:
+
+- Olist needs to create a Customer loyalty program in which better customers receive
+offers and special discounts
+- High spender and At risk customers should be rewarded with special discounts or targeted offers
+- Olist should provide different sales strategies for best customers per seller in order to  
+improve customer purchasing behavior. */
+
+
+
+
+-- =====================================================================
+-- COHORT RETENTION ANALYSIS - Customer Retention Month by Month
+-- =====================================================================
+
+-- Step 1: Get each customer's first purchase month
+WITH first_purchase AS (
+    SELECT 
+        c.customer_unique_id,
+        MIN(DATEFROMPARTS(YEAR(o.order_purchase_timestamp), MONTH(o.order_purchase_timestamp), 1)) AS CohortMonth
+    FROM dbo.orders o
+    INNER JOIN dbo.customers c
+    ON o.customer_id = c.customer_id
+    GROUP BY c.customer_unique_id
+),
+
+-- Step 2: Get all unique purchase months for each customer
+customer_purchase_months AS (
+    SELECT
+        fp.customer_unique_id,
+        fp.CohortMonth,
+        DATEFROMPARTS(YEAR(o.order_purchase_timestamp), MONTH(o.order_purchase_timestamp), 1) AS PurchaseMonth
+    FROM dbo.orders o
+    INNER JOIN dbo.customers c
+    ON o.customer_id = c.customer_id
+    INNER JOIN first_purchase fp
+    ON c.customer_unique_id = fp.customer_unique_id
+    GROUP BY fp.customer_unique_id, fp.CohortMonth, DATEFROMPARTS(YEAR(o.order_purchase_timestamp), MONTH(o.order_purchase_timestamp), 1)
+),
+
+-- Step 3: Calculate months since first purchase for each purchase
+cohort_with_offset AS (
+    SELECT
+        customer_unique_id,
+        CohortMonth,
+        PurchaseMonth,
+        DATEDIFF(MONTH, CohortMonth, PurchaseMonth) AS MonthOffset
+    FROM customer_purchase_months
+),
+
+-- Step 4: Get total customers per cohort (those in month 0)
+cohort_sizes AS (
+    SELECT 
+        CohortMonth,
+        COUNT(DISTINCT customer_unique_id) AS CohortSize
+    FROM first_purchase
+    GROUP BY CohortMonth
+),
+
+-- Step 5: Count active customers per cohort per month offset
+retention_by_month AS (
+    SELECT
+        CohortMonth,
+        MonthOffset,
+        COUNT(DISTINCT customer_unique_id) AS ActiveCustomers
+    FROM cohort_with_offset
+    GROUP BY CohortMonth, MonthOffset
+)
+
+-- Step 6: Create pivot table with retention rates
+SELECT 
+    rbm.CohortMonth,
+    cs.CohortSize,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 0 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M0,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 1 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M1,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 2 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M2,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 3 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M3,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 4 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M4,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 5 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M5,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 6 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M6,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 7 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M7,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 8 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M8,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 9 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M9,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 10 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M10,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 11 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M11,
+    ISNULL(ROUND((MAX(CASE WHEN rbm.MonthOffset = 12 THEN rbm.ActiveCustomers END) * 100.0) / cs.CohortSize, 2), 0) AS M12
+FROM retention_by_month rbm
+INNER JOIN cohort_sizes cs
+ON rbm.CohortMonth = cs.CohortMonth
+GROUP BY rbm.CohortMonth, cs.CohortSize
+ORDER BY rbm.CohortMonth;
+
+
+/* Results:
+
+- The cohort retention analysis shows extremely low customer retention
+
+- Across all cohorts, only about 0.3% to 0.7% of customers return in the months following their first purchase, 
+and long-term retention rarely exceeds 1%.
+
+- This means that more than 99% of customers make only one purchase and never come back.
+
+- The results show no significant improvement or identifiable seasonal pattern in retention behavior.
+- Regardless of cohort size, the number of returning customers remains minimal, 
+suggesting that customer engagement and long-term loyalty are very limited.
+
+- Consequently, the business depends almost entirely on continual acquisition of new customers to sustain sales levels.
+
+- The last cohorts of 2017 and subsequent months cannot be rigorously analyzed month by month because the dataset ends in October 2018. As a result, 
+these cohorts do not have a complete sequence of monthly observations, limiting the reliability of their retention metrics.
+
+- Overall, the findings reflect a predominantly one-time-buyer customer base and highlight the need for strategies aimed at
+increasing repeat purchase rates and strengthening customer loyalty. */
+
+
+--==================================================================
+-- Customer segmentation Revenue and compared with the overall Sales
+--==================================================================
+
+WITH rfm AS (
+SELECT
+    c.customer_unique_id,
+    DATEDIFF(DAY, MAX(o.order_purchase_timestamp), '2018-10-17') AS Recency,
+    COUNT(DISTINCT o.order_id) AS Frequency,
+    SUM(oi.price) AS Monetary
+FROM dbo.customers c
+INNER JOIN dbo.orders o
+ON c.customer_id = o.customer_id
+INNER JOIN dbo.order_items oi
+ON o.order_id = oi.order_id
+GROUP BY c.customer_unique_id
+), group_dataset AS (
+SELECT *,
+   NTILE(3) OVER (ORDER BY Recency ASC) AS R_Score,
+   NTILE(3) OVER (ORDER BY Monetary DESC) AS M_Score,
+   NTILE(3) OVER (ORDER BY Frequency DESC) AS F_Score
+FROM rfm ), customer_seg AS (
+SELECT 
+    *,
+    CASE WHEN R_Score = 1  AND F_Score = 1 AND M_Score = 1 THEN 'Best Customers'
+    WHEN R_Score = 1 AND (F_Score = 1 OR M_Score = 1) THEN 'Potential Loyal Customer'
+    WHEN R_Score = 3 AND F_Score != 1 AND M_Score != 3 THEN 'At Risk'
+    WHEN Monetary > 3000 THEN 'High spender customer'
+    ELSE 'Other' END AS Customer_Segmentation
+FROM group_dataset
+) 
+SELECT 
+    *,
+    SUM(Revenue) OVER() AS Overall_Revenue,
+    ((Revenue *100) /  SUM(Revenue) OVER()) AS Percentage
+FROM(
+SELECT 
+    Customer_Segmentation,
+    SUM(Monetary) AS Revenue
+FROM customer_seg
+GROUP BY Customer_Segmentation)t
+
+
+ /* Results 
+
+- The �Best Customers� segment represents only 2% of the company�s total revenue.
+
+- �Potential Loyal Customers� contribute approximately one-fourth of total revenue, highlighting the importance of implementing loyalty-building initiatives.
+
+- The At Risk� segment accounts for nearly one-third of all customers, indicating that many previously frequent buyers are no longer generating sales.
+
+- These findings underscore the importance of maintaining customer relationships over time to secure consistent and recurring revenue.
