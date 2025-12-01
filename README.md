@@ -22,7 +22,10 @@ Assessment of sales performance across states and cities, including identificati
 - **Category 5 Review Score and Service Quality Analysis:**
 Examination of review scores across categories and sellers to uncover service issues, category logistics problems, and improvement opportunities.
 
-- **Category 6 Strategic Recommendations:** 
+- **Category 6 Order payments type Analysis:**
+Detailed analysis of payment type and number of installments per order_value, state, sellers and categorie
+
+- **Category 7 Strategic Recommendations:** 
 Development of data-driven guidance to support business decisions aimed at enhancing customer satisfaction, strengthening seller engagement, and increasing overall sales performance.
 
 
