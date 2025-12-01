@@ -1,0 +1,207 @@
+--============================================================================================================
+/* Category 2 Product and Category Performance: In-depth analysis of product and category-level performance
+ to determine which categories drive the highest sales for both individual sellers and the company overall. */
+--============================================================================================================
+
+--=========================================================================
+--Categories with most sales of company and compared with the overall sales
+--=========================================================================
+
+WITH main_query AS (
+SELECT 
+    *,
+    SUM(Revenue) OVER() AS TotalSales,
+    SUM(Revenue) OVER(ORDER BY Revenue DESC) AS RunningRevenue
+FROM (
+SELECT 
+	p.product_category_name,
+	ROUND(SUM(oi.price),0) AS Revenue
+FROM dbo.order_items oi
+INNER JOIN dbo.products p 
+ON oi.product_id = p.product_id
+GROUP BY p.product_category_name)t
+)
+
+SELECT 
+    *,
+    (RunningRevenue * 100/ TotalSales) AS percentage
+FROM main_query
+
+
+-- Top 10 categories with highest revenue
+
+SELECT TOP 10
+	p.product_category_name,
+	ROUND(SUM(oi.price),0) AS Revenue
+FROM dbo.order_items oi
+INNER JOIN dbo.products p 
+ON oi.product_id = p.product_id
+GROUP BY p.product_category_name
+ORDER BY Revenue DESC
+
+--================================================================
+--Sellers with highest revenue and compared with the overall sales
+--================================================================
+
+WITH main_query AS (
+SELECT 
+    *,
+    SUM(Revenue) OVER() AS TotalSales,
+    SUM(Revenue) OVER(ORDER BY Revenue DESC) AS RunningRevenue
+FROM (
+SELECT 
+	oi.seller_id,
+	ROUND(SUM(oi.price),0) AS Revenue
+FROM dbo.order_items oi
+GROUP BY oi.seller_id)t
+)
+
+SELECT 
+    *,
+    (RunningRevenue * 100/ TotalSales) AS percentage
+FROM main_query
+
+-- Top 10 sellers with highest revenue
+
+SELECT TOP 10
+	oi.seller_id,
+	ROUND(SUM(oi.price),0) AS Revenue
+FROM dbo.order_items oi
+GROUP BY oi.seller_id
+ORDER BY Revenue DESC
+
+--=========================================================================
+-- Sellers with highest revenue and best selling categories per each seller
+--=========================================================================
+
+WITH seller_category_revenue AS (
+    SELECT
+        oi.seller_id,
+        p.product_category_name,
+        SUM(oi.price) AS category_revenue
+    FROM dbo.order_items oi
+    INNER JOIN dbo.products p 
+    ON oi.product_id = p.product_id
+    GROUP BY
+        oi.seller_id,
+        p.product_category_name
+),
+seller_total_revenue AS (
+    SELECT
+        seller_id,
+        SUM(category_revenue) AS total_revenue
+    FROM seller_category_revenue
+    GROUP BY seller_id
+),
+top_10_sellers AS (
+    SELECT TOP 10
+        seller_id,
+        total_revenue
+    FROM seller_total_revenue
+    ORDER BY total_revenue DESC
+)
+SELECT
+    t.seller_id,
+    t.total_revenue,
+    scr.product_category_name,
+    scr.category_revenue
+FROM top_10_sellers t
+INNER JOIN seller_category_revenue scr
+    ON t.seller_id = scr.seller_id
+ORDER BY t.total_revenue DESC, scr.category_revenue DESC;
+
+
+--=======
+--Ranking
+--=======
+
+
+--=================================================================================
+-- Sellers with highest revenue and best selling categories per each seller Ranking
+--=================================================================================
+
+-- 1. Total Sales per seller and category
+WITH seller_category_sales AS (
+    SELECT
+        oi.seller_id,
+        p.product_category_name AS category,
+        SUM(oi.price) AS total_sales
+    FROM dbo.order_items oi
+    INNER JOIN dbo.products p 
+    ON oi.product_id = p.product_id
+    GROUP BY oi.seller_id, p.product_category_name
+),
+
+-- 2. Total Sales per seller
+seller_total_sales AS (
+    SELECT
+        seller_id,
+        SUM(total_sales) AS seller_revenue
+    FROM seller_category_sales
+    GROUP BY seller_id
+),
+
+-- 3. Top 10 sellers per Total Sales
+top_10_sellers AS (
+    SELECT TOP 10
+        seller_id,
+        seller_revenue
+    FROM seller_total_sales
+    ORDER BY seller_revenue DESC
+),
+
+-- 4. Rank categories per seller
+ranked_categories AS (
+    SELECT
+        scs.seller_id,
+        scs.category,
+        scs.total_sales,
+        RANK() OVER(
+            PARTITION BY scs.seller_id
+            ORDER BY scs.total_sales DESC
+        ) AS category_rank
+    FROM seller_category_sales scs
+    INNER JOIN top_10_sellers ts
+        ON scs.seller_id = ts.seller_id
+)
+
+SELECT
+    seller_id,
+    category,
+    total_sales,
+    category_rank
+FROM ranked_categories
+WHERE category_rank <= 5
+ORDER BY seller_id, category_rank;
+
+/* 
+
+Overall Insights
+
+--=====================
+--Products / Categories
+--=====================
+
+-beleza_saude is the top-selling category in the company.
+
+-Only 7 out of 75 categories account for almost 50% of total sales.
+
+-Category sales follow the 20/80 Pareto rule.
+
+-21% of categories generate 80% of total revenue.
+
+--=======
+--Sellers
+--=======
+
+-Since seller names are unknown, the seller 4869f7a5dfa277a7dca6462dcf3b52b2 represents the highest revenue contributor to the company.
+
+-Sales distribution among sellers also follows the Pareto rule, even more strongly than categories.
+
+-17% of sellers generate 80% of total sales.
+
+-More than 50% of sellers contribute less than 5% of total revenue, it suggest that many sellers can be inactive or low-engagement
+
+-The top 10 sellers have different top 5 best-selling categories overall.
+
+-The top 10 sellers generally rely heavily on one main category that generates the majority of their revenue. */
