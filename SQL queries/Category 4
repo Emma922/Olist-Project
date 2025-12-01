@@ -1,0 +1,239 @@
+--===================================================================================================
+/* Category 4 Geographic Sales Distribution: Assessment of sales performance across states and cities, 
+including identification of top-performing sellers and regions with growth opportunities. */
+--===================================================================================================
+
+-- Total revenue generated for each city
+
+SELECT 
+    c.customer_city,
+    SUM(oi.price) AS Revenue
+FROM dbo.order_items oi
+INNER JOIN dbo.orders o 
+ON oi.order_id = o.order_id
+INNER JOIN dbo.customers c 
+ON o.customer_id = c.customer_id
+GROUP BY c.customer_city
+ORDER BY Revenue DESC
+
+
+-- Total Revenue generated for each region
+
+SELECT 
+    c.customer_state,
+    SUM(oi.price) AS Revenue
+FROM dbo.order_items oi
+INNER JOIN dbo.orders o 
+ON oi.order_id = o.order_id
+INNER JOIN dbo.customers c 
+ON o.customer_id = c.customer_id
+GROUP BY c.customer_state
+ORDER BY Revenue DESC
+
+-- Top 10 sellers who have generated the highest revenue per region
+
+SELECT TOP 10
+    RANK() OVER(ORDER BY Revenue DESC) AS Ranking,
+    *
+FROM 
+(SELECT 
+    oi.seller_id,
+    ROUND(SUM(oi.price),0) AS Revenue,
+    COUNT(order_id) AS Seller_orders
+FROM dbo.order_items oi
+GROUP BY oi.seller_id) t
+
+
+-- Revenue per state with top 5 product categories per state
+
+WITH state_category_revenue AS (
+    SELECT 
+        c.customer_state,
+        p.product_category_name,
+        SUM(oi.price) AS Revenue
+    FROM dbo.order_items oi
+    INNER JOIN dbo.orders o 
+    ON oi.order_id = o.order_id
+    INNER JOIN dbo.customers c 
+    ON o.customer_id = c.customer_id
+    INNER JOIN dbo.products p
+    ON oi.product_id = p.product_id
+    GROUP BY c.customer_state, p.product_category_name
+),
+
+state_total_revenue AS (
+    SELECT 
+        customer_state,
+        SUM(Revenue) AS TotalStateRevenue
+    FROM state_category_revenue
+    GROUP BY customer_state
+),
+
+ranked_categories AS (
+    SELECT
+        scr.customer_state,
+        scr.product_category_name,
+        scr.Revenue,
+        str.TotalStateRevenue,
+        RANK() OVER(PARTITION BY scr.customer_state ORDER BY scr.Revenue DESC) AS CategoryRank
+    FROM state_category_revenue scr
+    INNER JOIN state_total_revenue str
+    ON scr.customer_state = str.customer_state
+)
+
+SELECT
+    customer_state,
+    product_category_name,
+    ROUND(Revenue,0) AS Revenue,
+    TotalStateRevenue,
+    ROUND((Revenue * 100.0 / TotalStateRevenue), 2) AS PercentageOfStateRevenue,
+    CategoryRank
+FROM ranked_categories
+WHERE CategoryRank <= 5
+ORDER BY customer_state, CategoryRank;
+
+
+
+SELECT 
+    p.product_category_name,
+    SUM(oi.price) AS Revenue
+FROM order_items oi
+INNER JOIN [products ] p
+ON oi.product_id = p.product_id
+GROUP BY p.product_category_name
+ORDER BY Revenue DESC
+
+
+
+--==============
+--Interpretation
+--==============
+
+--===============================================
+/* Sales Behavior of Top Categories Across States
+--===============================================
+
+- Beleza_saude appears in the top 5 categories in every state, 
+indicating consistently strong performance and broad customer demand across the country.
+
+- Relogios_presentes ranks in the top 5 categories in 23 out of 27 states, 
+showing wide national appeal, although slightly less consistent than Beleza_saude.
+
+- Cama_mesa_banho appears in the top 5 in only 8 out of 27 states, 
+which suggests a more region-specific demand and lower nationwide penetration compared with the previous categories.
+
+--====================
+State-Level Highlights
+--====================
+
+-Sao Paulo (SP) is the state with the highest overall revenue. It also shows high category diversification,
+meaning its sales are distributed across many different product categories rather than concentrated in a few. 
+
+-The strongest category in any single state is esporte_lazer in Roraima (RR), representing 17.25% of the total revenue in that state.
+
+-Roraima (RR) shows low category diversification, with 60% of its total revenue coming from its top 5 categories, indicating a more concentrated consumer demand.
+
+-Comparing High and Low Revenue States
+
+-Even the lowest-revenue states display similar category patterns to those seen in the highest-revenue states.
+
+-These states still show strong sales concentration in their top 5 categories, except cama mesa banho, although the absolute sales amounts are significantly lower.
+
+-This suggests that consumer preferences are relatively consistent across states, but purchasing power and market size vary significantly.
+
+-Cama_mesa_banho is purchased mainly in the highest-revenue states, showing stronger demand in larger and more developed markets. */
+
+
+
+
+--=================================
+--Regions with growth opportunities
+--=================================
+
+-- Revenue and Total Orders per state
+SELECT
+    c.customer_state,
+    SUM(price) AS Revenue,
+    COUNT(oi.order_id) AS TotalOrders
+FROM order_items oi
+INNER JOIN orders o
+ON oi.order_id = o.order_id
+INNER JOIN customers c
+ON o.customer_id = c.customer_id
+GROUP BY c.customer_state
+ORDER BY Revenue DESC
+
+-- AOV per customers
+SELECT 
+    *,
+    (Revenue / TotalCustomers) AS AOV_per_customers
+FROM
+(SELECT
+    c.customer_state,
+    SUM(price) AS Revenue,
+    COUNT(c.customer_id) AS TotalCustomers
+FROM order_items oi
+INNER JOIN orders o
+ON oi.order_id = o.order_id
+INNER JOIN customers c
+ON o.customer_id = c.customer_id
+GROUP BY c.customer_state
+)t
+ORDER BY Revenue DESC
+
+-- AOV per sellers state
+
+SELECT 
+    *,
+    (Revenue/ TotalSellers) AS AOV_per_sellers
+FROM
+(SELECT
+    s.seller_state,
+    SUM(price) AS Revenue,
+    COUNT(s.seller_id) AS TotalSellers
+FROM order_items oi
+INNER JOIN [sellers ] s
+ON oi.seller_id = s.seller_id
+GROUP BY  s.seller_state)t
+ORDER BY Revenue DESC
+
+
+-- Order freight value per customer state
+
+SELECT
+    c.customer_state,
+    SUM(price) AS Revenue,
+    ROUND(AVG(oi.freight_value),0) AS freight_value
+FROM order_items oi
+INNER JOIN orders o
+ON oi.order_id = o.order_id
+INNER JOIN customers c
+ON o.customer_id = c.customer_id
+GROUP BY  c.customer_state
+ORDER BY Revenue DESC
+
+
+
+/*
+-- Interpretation:
+- Roraima (RR) is the state with the lowest revenue and the fewest total orders. It also shows very low product diversification, 
+suggesting limited product availability or an insufficient number of active sellers in that region.
+
+- RR would benefit from expanding the product catalog and having sellers in the local place
+since the current offering appears too limited to meet customer demand and there are no sellers in RR
+
+- S�o Paulo (SP) has the lowest Average Order Value (AOV). This indicates that customers in this state tend to purchase low-priced items or 
+smaller quantities. Campaigns aimed at increasing AOV, such as product bundles, minimum-order incentives, or upselling strategies, are recommended.
+
+- Para�ba (PB) has the highest AOV, meaning customers typically buy higher-priced products or larger quantities. 
+Increasing marketing and product availability in this state could further boost revenue, as customer purchasing behavior is already strong.
+
+- States with the highest revenue also tend to have the largest number of sellers. In contrast, low-revenue states usually have very few sellers or 
+in some cases, none�indicating that seller scarcity directly limits sales potential.
+
+- Overall, high-revenue states show lower freight values, while states with higher freight costs tend to generate lower revenue. 
+This suggests that shipping costs strongly influence purchasing behavior: lower freight value encourages more sales, 
+whereas high freight value discourages customers from buying.
+
+*/
+
