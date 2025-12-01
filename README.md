@@ -20,12 +20,9 @@ Detailed customer analysis aimed at understanding purchasing behavior, identifyi
 Assessment of sales performance across states and cities, including identification of top-performing sellers and regions with growth opportunities.
 
 - **Category 5 Review Score and Service Quality Analysis:**
-Examination of review scores across categories and sellers to uncover service issues, product quality concerns, and improvement opportunities.
+Examination of review scores across categories and sellers to uncover service issues, category logistics problems, and improvement opportunities.
 
-- **Category 6 Customer Experience Risk Factors:**
-Identification of behavioral and operational patterns that may lead to negative customer experiences, enabling proactive mitigation.
-
-- **Category 7 Strategic Recommendations:** 
+- **Category 6 Strategic Recommendations:** 
 Development of data-driven guidance to support business decisions aimed at enhancing customer satisfaction, strengthening seller engagement, and increasing overall sales performance.
 
 
