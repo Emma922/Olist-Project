@@ -1,0 +1,111 @@
+--======================================================================================================
+/* Category 6 Order payments type Analysis: Detailed analysis of payment type and number of installments 
+per order value, state, sellers and categories */
+--======================================================================================================
+
+-- Revenue and Avg Revenue per payments type
+SELECT 
+	payment_type,
+	ROUND(SUM(payment_value),0) AS Revenue,
+	ROUND(AVG(payment_value),0) AS AvgRevenue
+FROM order_payments
+GROUP BY payment_type
+ORDER BY Revenue DESC
+
+
+-- Avg Nr of installments per states
+
+SELECT 
+	c.customer_state,
+	AVG(CAST(payment_installments AS DECIMAL(10,2))) AS [Avg Nr Installments]
+FROM order_payments op
+INNER JOIN orders o
+ON op.order_id = o.order_id
+INNER JOIN customers c
+ON o.customer_id = c.customer_id
+GROUP BY c.customer_state
+ORDER BY [Avg Nr Installments] DESC
+
+-- Avg Nr of installments per categories
+
+SELECT 
+	t.*,
+	AVG([Avg Nr Installments]) OVER() AS [OverallAvg]
+FROM
+(SELECT 
+	p.product_category_name,
+	AVG(CAST(payment_installments AS DECIMAL(10,2))) AS [Avg Nr Installments],
+	ROUND(SUM(oi.price),0) AS Revenue,
+	COUNT(op.order_id) AS TotalOrders
+FROM order_payments op
+INNER JOIN order_items oi
+ON op.order_id = oi.order_id
+INNER JOIN [products ] p
+ON oi.product_id = p.product_id
+GROUP BY p.product_category_name
+HAVING COUNT(op.order_id) > 50) t
+ORDER BY Revenue DESC
+
+
+-- Payment type per category
+
+WITH main_query AS (
+SELECT 
+    p.product_category_name,
+    op.payment_type,
+    COUNT(*) AS TotalPayments
+FROM order_payments op
+INNER JOIN order_items oi ON op.order_id = oi.order_id
+INNER JOIN products p ON oi.product_id = p.product_id
+WHERE p.product_category_name IS NOT NULL 
+GROUP BY p.product_category_name, op.payment_type
+), overall_payments AS
+(
+SELECT 
+	*,
+	SUM(TotalPayments) OVER(PARTITION BY product_category_name) AS TotalPayments_perCat
+FROM main_query
+)
+SELECT 
+	*,
+	(CAST(TotalPayments AS DECIMAL(10,2)) / TotalPayments_perCat) AS Percentage
+FROM overall_payments 
+WHERE payment_type = 'credit_card' AND TotalPayments_perCat > 50
+ORDER BY Percentage DESC
+
+-- Here I filtered by credit card type in order to understand what categories bought more through credit card
+-- We can eliminate the filter and only see how each type of payment type contributes to the overall number of payments
+
+SELECT 
+    p.product_category_name,
+    oi.seller_id,
+    ROUND(AVG(CAST(op.payment_installments AS FLOAT)),2) AS AvgInstallments,
+    ROUND(SUM(oi.price),0) AS Revenue
+FROM order_payments op
+INNER JOIN order_items oi ON op.order_id = oi.order_id
+INNER JOIN products p ON oi.product_id = p.product_id
+GROUP BY p.product_category_name, oi.seller_id
+HAVING COUNT(*) > 20
+ORDER BY AvgInstallments DESC;
+
+
+/*
+- High-installment sellers vary significantly across product categories. 
+
+- Categories like 'eletrodomesticos_2', 'moveis_decoracao', and 'automotivo' have the highest average installments, 
+suggesting reliance on financing for higher-priced or durable goods.
+
+- Revenue does not directly correlate with average installments. For example, 'beleza_saude' has the highest revenue 
+but lower average installments than top financing categories.
+
+- Customer financing preferences align with product type, particularly for expensive or long-term purchase items. 
+Sellers within categories show consistent installment behavior but differ widely in revenue, reflecting inventory size, price tiers, and demand variability.
+
+- Different categories adopt distinct financial strategies: some depend on installment plans, while others generate 
+high sales volume with fewer installments.
+
+- For instance electrodomesticos has avg value of 476 while the overall value is 120, it means that this category rely heavily on installments
+in order to allow people buy the product
+
+These insights can guide pricing, marketing, and sales strategies tailored to category-specific financing patterns and revenue drivers.
+*/
