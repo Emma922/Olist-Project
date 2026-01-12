@@ -38,22 +38,11 @@ Targeted SQL queries for various business questions can be found here:
 Olist Dataset:
 ![Olist Dataset](https://github.com/user-attachments/assets/16cada77-7551-48b8-bac7-af613f819bec)
 
-- General_orders table cannot be connected with the other tables
-- Explanation why some columns are not PK can be found here:  [link sql assing PK and FK]
-
 
 
 Interactive Tableau dashboards for customer analysis and sales/product behavior are available here:  
-- [Customer Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/AspricemakeupDasboard/CustomerDashboard)  
-- [Sales and Products Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/AspricemakeupSalesProductsDashboard/SalesProductsDashboard)
+- [Business Performance Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/Olist_17646411959020/Dashboard1)
 
-### Data Structure & Initial Checks
-
-The company's main database consists of four tables: `orders`, `products`, and `customers`, with a total of 610 records. Below is a description of the dataset structure:
-
-![Asprice Makeup Dataset](https://github.com/user-attachments/assets/ef0f0a6a-37d8-4f4f-8c65-ee2132e10297)
-
----
 
 ## Executive Summary
 
