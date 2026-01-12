@@ -42,6 +42,8 @@ Olist Dataset:
 
 Interactive Tableau dashboards for customer analysis and sales/product behavior are available here:  
 - [Business Performance Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/Olist_17646411959020/Dashboard1)
+- 
+<img width="1459" height="1279" alt="Dashboard 1 (6)" src="https://github.com/user-attachments/assets/0ee35a44-7548-4693-a773-0db74235fb3d" />
 
 
 ## Executive Summary
