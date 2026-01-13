@@ -33,7 +33,7 @@ The python code to make exploratory analysis and cleaning the data can be found 
 [Python Cleaning and Exploration Code](https://github.com/Emma922/Olist-Project/blob/302c4819153578439040c44af7a7dab13978ef14/Olist_EDA_cleaning.ipynb)
 
 Targeted SQL queries for various business questions can be found here:  
-[SQL Business Questions Queries](https://github.com/Emma922/Asprice-makeup-project/tree/f88984d9cb5a02049d58ad5cb888523d7cdd46bf/sql%20business%20questions)
+[SQL Business Questions Queries](https://github.com/Emma922/Olist-Project/tree/ab7fa770a9f45d0e2c80d9a230c366801487e88e/SQL%20queries)
 
 Olist Dataset:
 ![Olist Dataset](https://github.com/user-attachments/assets/16cada77-7551-48b8-bac7-af613f819bec)
