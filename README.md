@@ -49,18 +49,18 @@ Interactive Tableau dashboards for business perormance analysis are available he
 
 ### Overview of Findings
 
-Olist showed steady growth month by month. The analysis indicates a strong market presence with dominance in Sao Paulo (SP), Minas Gerais (MG), and Rio de Janeiro (RJ). Additionally, lack of customer loyalty, and logistic problems are key issues that prevent Olist to develop a better sales numbers. 
-Furthermore, there is observed the pareto rule in sales performance for categories and sellers, which means that Olist rely heavily on a few categories and sellers.
+Olist showed steady growth month by month. The analysis indicates a strong market presence, particularly in Sao Paulo (SP), Minas Gerais (MG), and Rio de Janeiro (RJ). Additionally, a lack of customer loyalty and logistic problems are key issues that prevent Olist from developing better sales numbers. 
+Furthermore, there is observed the pareto rule in sales performance for categories and sellers, which means that Olist relies heavily on a few categories and sellers.
 
 Key insights include:
 
 - It is observed that there is consistent sales growth per year, while no seasonality patterns are demonstrated 
 - Category and seller sales follow the Pareto rule
-- More than 50% of sellers contribute only 5% revenue, it suggests that many sellers might be inactive
+- More than 50% of sellers contribute only 5% revenue, which suggests that many sellers might be inactive
 - Only 7 out of 75 categories comprise almost 50% of total sales
-- Olist lacks of customer loyalty. Based on the RFM analysis, customers who contribute most  to the sales did not make additional purchases
-- Outperforming states show lower freight values, while underperforming states tend to have higher freight values. This indicates that shipping cost strongly influence purchasing behavior.
-- There are certain issues related to logistics. Even a few of the highest-performers products show complaints. Additionally, there is a significant quantity of low-quality review sellers who have sold a considerable amount of products.
+- Olist lacks customer loyalty. Based on the RFM analysis, customers who contribute most  to the sales did not make additional purchases
+- Outperforming states show lower freight values, while underperforming states tend to have higher freight values. This indicates that shipping cost strongly influences purchasing behavior.
+- There are certain issues related to logistics. Even a few of the highest-performing products show complaints. Additionally, there is a significant quantity of low-quality review sellers who have sold a considerable amount of products.
 - Customer financing preferences depend on the type of goods, particularly for expensive or long-term items.
 
 ### Based on these findings, Olist would benefit from:
@@ -80,7 +80,7 @@ promotional tools to activate inactive sellers.
 
 ### Historical Sales Performance
 
-- All months shows a consistent growth per year, indicating a general growth trend in sales per year.
+- All months show a consistent growth per year, indicating a general growth trend in sales per year.
 This suggests that Olist has been strengthening its presence in the Brazilian market over time. 
   
 - Based on the available data, we can infer that Olist may exhibit a seasonality pattern during the first 2 quarters of the year. However, due to the limited data across full yearly cycles, 
@@ -127,8 +127,7 @@ Addtionally, it is purchased mainly in the highest-revenue states, showing stron
 - Sao Paulo (SP) is the state with the highest overall revenue. It also shows high category diversification,
 meaning its sales are distributed across many different product categories rather than concentrated in a few.
 - Consumer preferences are relatively consistent across states, but purchasing power and market size vary significantly.
-- States with the highest revenue also tend to have the largest number of sellers. In contrast, low-revenue states usually have very few sellers or 
-in some cases, none�indicating that seller scarcity directly limits sales potential.
+- States with the highest revenue also tend to have the largest number of sellers. In contrast, low-revenue states usually have very few sellers or in some cases, none, indicating that seller scarcity directly limits sales potential.
 
 Sales Performance by State (to consult state details and accurate specific information please enter into the dashboard)
 
