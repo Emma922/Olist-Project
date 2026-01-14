@@ -130,7 +130,7 @@ meaning its sales are distributed across many different product categories rathe
 - States with the highest revenue also tend to have the largest number of sellers. In contrast, low-revenue states usually have very few sellers or 
 in some cases, none�indicating that seller scarcity directly limits sales potential.
 
-Sales Performance by State
+Sales Performance by State (to consult specific state details please enter into the dashboard)
 
 
 ![State Performance](https://github.com/user-attachments/assets/fcf24d00-c86a-41f8-8dd3-95a2bdaf5edc)
