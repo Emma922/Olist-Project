@@ -112,6 +112,7 @@ With the current dataset, we cannot reliably distinguish between structural grow
 - These findings underscore the importance of maintaining customer relationships over time to secure consistent and recurring revenue.
 - Based on the RFM analysis, customers who contribute most  to the sales did not make additional purchases
 
+- This chart shows the dominance of single-purchase customers, which suggests low repeat purchase rates
 
 
 ![Nr. Orders per Customer](https://github.com/user-attachments/assets/8a2627b8-65f8-49cd-aa54-08d71a6871b2)
