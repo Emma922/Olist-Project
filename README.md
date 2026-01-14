@@ -103,13 +103,18 @@ With the current dataset, we cannot reliably distinguish between structural grow
   - **The top 10** sellers have different top 5 best-selling categories overall.
   - **The top 10** sellers generally rely heavily on one main category that generates the majority of their revenue
 
-![Brand and Product Distribution](https://github.com/user-attachments/assets/e28a604c-0ed3-4d77-a221-a20a4a1f3de2)
 
-### Average Order Value (AOV) per Customer
+### Customer Behavior and Segmentation
 
-- While most business metrics declined recently, **AOV increased**, indicating improved purchasing behavior.
-- The rise in AOV correlates with the introduction of wholesale sales on September 7.
-- Since then, AOV per customer has steadily risen despite overall sales dropping.
+- The �Best Customers� segment represents only 2% of the company�s total revenue.
+
+- �Potential Loyal Customers� contribute approximately one-fourth of total revenue, highlighting the importance of implementing loyalty-building initiatives.
+
+- The �At Risk� segment accounts for nearly one-third of all customers, indicating that many previously frequent buyers are no longer generating sales.
+
+- These findings underscore the importance of maintaining customer relationships over time to secure consistent and recurring revenue.
+
+
 
 ![AOV Trend](https://github.com/user-attachments/assets/c02efdc7-909e-4966-ae4d-94e52f3871f6)
 
