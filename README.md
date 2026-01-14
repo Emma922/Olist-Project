@@ -118,8 +118,25 @@ Nr. Orders per Customer Viz
 
 ![Nr. Orders per Customer](https://github.com/user-attachments/assets/8a2627b8-65f8-49cd-aa54-08d71a6871b2)
 
+### Geographic Sales Distribution
 
----
+- Beleza_saude appears in the top 5 categories in every state, indicating consistently strong performance
+  and broad customer demand across the country.
+- Cama_mesa_banho appears in the top 5 in only 8 out of 27 states, which suggests a more region-specific demand.
+Addtionally, it is purchased mainly in the highest-revenue states, showing stronger demand in larger and more developed markets.
+- Sao Paulo (SP) is the state with the highest overall revenue. It also shows high category diversification,
+meaning its sales are distributed across many different product categories rather than concentrated in a few.
+- Consumer preferences are relatively consistent across states, but purchasing power and market size vary significantly.
+- States with the highest revenue also tend to have the largest number of sellers. In contrast, low-revenue states usually have very few sellers or 
+in some cases, none�indicating that seller scarcity directly limits sales potential.
+
+Sales Performance by State
+
+
+![State Performance](https://github.com/user-attachments/assets/fcf24d00-c86a-41f8-8dd3-95a2bdaf5edc)
+
+
+
 
 ## Recommendations
 
