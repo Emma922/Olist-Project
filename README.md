@@ -174,6 +174,6 @@ Based on the analysis, the following actions are recommended to the stakeholder 
 promotional tools to activate inactive sellers.
 - **Marketing campaigns:** Marketing campaigns focused on outperforming products and categories
 - **Underperforming teams:** Balance freight values for underperforming states to encourage sales in these places
-- **Logistic and seller:** complaints campaigns:** Watch out for logistics and seller complaints by strengthening quality control, improving delivery reliablity, and monitoring seller performance.
+- **Logistic and seller complaints:** Watch out for logistics and seller complaints by strengthening quality control, improving delivery reliablity, and monitoring seller performance.
 - **Customer preferences:** Take advantage of customer financing preferences through targeted marketing and financial strategies
 - **Customer engagement:** Implement customer engagement programs to increase repeat purchases.
