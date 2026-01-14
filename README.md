@@ -14,7 +14,7 @@ Comprehensive evaluation of historical sales behavior across orders, sellers, st
 In-depth analysis of sellers and category performance to determine which categories drive the highest sales for both individual sellers and the company overall.
 
 - **Category 3 Customer Behavior and Segmentation:**
-Detailed customer analysis aimed at understanding purchasing behavior, identifying customer segments, and evaluating how each segment contributes to total sales and profitability.
+Detailed customer analysis aimed at understanding purchasing behavior, identifying customer segments, and evaluating how each segment contributes to total sales.
 
 - **Category 4 Geographic Sales Distribution:**
 Assessment of sales performance across states and cities, including identification of top-performing sellers and regions with growth opportunities.
