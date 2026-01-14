@@ -107,16 +107,15 @@ With the current dataset, we cannot reliably distinguish between structural grow
 ### Customer Behavior and Segmentation
 
 - The �Best Customers� segment represents only 2% of the company�s total revenue.
-
 - �Potential Loyal Customers� contribute approximately one-fourth of total revenue, highlighting the importance of implementing loyalty-building initiatives.
-
 - The �At Risk� segment accounts for nearly one-third of all customers, indicating that many previously frequent buyers are no longer generating sales.
-
 - These findings underscore the importance of maintaining customer relationships over time to secure consistent and recurring revenue.
+- Based on the RFM analysis, customers who contribute most  to the sales did not make additional purchases
 
 
 
-![AOV Trend](https://github.com/user-attachments/assets/c02efdc7-909e-4966-ae4d-94e52f3871f6)
+![Nr. Orders per Customer](https://github.com/user-attachments/assets/8a2627b8-65f8-49cd-aa54-08d71a6871b2)
+
 
 ---
 
