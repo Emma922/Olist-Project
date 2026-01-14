@@ -49,7 +49,8 @@ Interactive Tableau dashboards for business perormance analysis are available he
 
 ### Overview of Findings
 
-Asprice Makeup showed steady growth earlier in the year, but recent sales dropped sharply by up to 83%. The analysis indicates that the absence of a loyalty program, weak marketing focus, limited promotions, and lack of wholesale channels contributed to this decline.
+Olist showed steady growth month by month. The analysis indicates a strong market presence with dominance in Sao Paulo (SP), Minas Gerais (MG), and Rio de Janeiro (RJ). Additionally, lack of customer loyalty, and logistic problems are key issues that prevent Olist to develop a better sales numbers. 
+Furthermore, there is observed the pareto rule in sales performance for categories and sellers, which means that Olist rely heavily on a few categories and sellers.
 
 Key insights include:
 
@@ -105,9 +106,9 @@ With the current dataset, we cannot reliably distinguish between structural grow
 
 ### Customer Behavior and Segmentation
 
-- The �Best Customers� segment represents only 2% of the company�s total revenue.
-- �Potential Loyal Customers� contribute approximately one-fourth of total revenue, highlighting the importance of implementing loyalty-building initiatives.
-- The �At Risk� segment accounts for nearly one-third of all customers, indicating that many previously frequent buyers are no longer generating sales.
+- The "Best Customers" segment represents only 2% of the company's total revenue.
+- "Potential Loyal Customers" contribute approximately one-fourth of total revenue, highlighting the importance of implementing loyalty-building initiatives.
+- The "At Risk" segment accounts for nearly one-third of all customers, indicating that many previously frequent buyers are no longer generating sales.
 - These findings underscore the importance of maintaining customer relationships over time to secure consistent and recurring revenue.
 - Based on the RFM analysis, customers who contribute most  to the sales did not make additional purchases
 
