@@ -93,13 +93,15 @@ With the current dataset, we cannot reliably distinguish between structural grow
 
 
 
-### Products and Brand Distribution
+### Products and Category Performance
 
-- The data shows a strong **20–80 pattern**:
-  - Only **18% of brands** generate **79% of total revenue**.
-  - **20% of products** represent **60% of overall sales**.
-  - The top-performing products contribute **35% of total revenue**.
-  - One product alone accounts for about **10% of total revenue**, revealing significant dependence on a small product base.
+-  The data shows a strong **20–80 pattern**:
+  - Only **7 out of 75** categories account for almost **50% of total sales**.
+  - **21% of categories** represent **80% of total revenue**.
+  - **17% of sellers** generate **80% of total sales**.
+  - More than a half of sellers contribute **less than 5% of total revenue**.
+  - **The top 10** sellers have different top 5 best-selling categories overall.
+  - **The top 10** sellers generally rely heavily on one main category that generates the majority of their revenue
 
 ![Brand and Product Distribution](https://github.com/user-attachments/assets/e28a604c-0ed3-4d77-a221-a20a4a1f3de2)
 
