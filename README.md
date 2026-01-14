@@ -74,8 +74,7 @@ promotional tools to activate inactive sellers.
 - Implement customer engagement programs to increase repeat purchases.
 
 Below is a sample overview from the Tableau dashboard. The full interactive dashboards can be accessed online:  
-[Customer Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/AspricemakeupDasboard/CustomerDashboard) |  
-[Sales and Products Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/AspricemakeupSalesProductsDashboard/SalesProductsDashboard)
+[Business Performance Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/Olist_17646411959020/Dashboard1) 
 
 ![Sales and Products Dashboard](https://github.com/user-attachments/assets/ed7de8cd-8bb7-4a96-8d80-0e9c898971cc)
 
