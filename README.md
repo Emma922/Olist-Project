@@ -73,11 +73,6 @@ promotional tools to activate inactive sellers.
 - Take advantage of customer financing preferences through targeted marketing and financial strategies
 - Implement customer engagement programs to increase repeat purchases.
 
-Below is a sample overview from the Tableau dashboard. The full interactive dashboards can be accessed online:  
-[Business Performance Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/Olist_17646411959020/Dashboard1) 
-
-![Sales and Products Dashboard](https://github.com/user-attachments/assets/ed7de8cd-8bb7-4a96-8d80-0e9c898971cc)
-
 ---
 
 ## Insights Deep Dive
