@@ -169,11 +169,11 @@ the seller maintains the lowest average review scores, suggesting severe operati
 
 Based on the analysis, the following actions are recommended to the stakeholder team:
 
-- **Company growth:** Leverage company growth through marketing ads across Brazil to sustain momentum and expand reach.
+- **Company growth:** Leverage company growth through marketing strategies across Brazil to sustain momentum and expand reach.
 - **Seller campaigns:** Sellers-focused campaigns to encourage sales activity, providing training, incentives or
 promotional tools to activate inactive sellers.
 - **Marketing campaigns:** Marketing campaigns focused on outperforming products and categories
 - **Underperforming teams:** Balance freight values for underperforming states to encourage sales in these places
 - **Logistic and seller complaints:** Watch out for logistics and seller complaints by strengthening quality control, improving delivery reliablity, and monitoring seller performance.
 - **Customer preferences:** Take advantage of customer financing preferences through targeted marketing and financial strategies
-- **Customer engagement:** Implement customer engagement programs to increase repeat purchases.
+- **Customer loyalty and engagement:** Implement customer engagement programs to increase loyalty and repeat purchases
