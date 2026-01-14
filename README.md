@@ -53,17 +53,24 @@ Asprice Makeup showed steady growth earlier in the year, but recent sales droppe
 
 Key insights include:
 
-- A **20–80 pattern** where a small number of brands, products, and customers generate most revenue.
-- The top ten products account for **35% of total sales**, showing heavy dependency on a limited product catalog.
-- The top three brands alone contribute over **60% of all sales**.
-- One single product generates almost **10% of total revenue**, indicating significant reliance on a few key products.
+- It is observed that there is consistent sales growth per year, while no seasonality patterns are demonstrated 
+- Category and seller sales follow the Pareto rule
+- More than 50% of sellers contribute only 5% revenue, it suggests that many sellers might be inactive
+- Only 7 out of 75 categories comprise almost 50% of total sales
+- Olist lacks of customer loyalty. Based on the RFM analysis, customers who contribute most  to the sales did not make additional purchases
+- Outperforming states show lower freight values, while underperforming states tend to have higher freight values. This indicates that shipping cost strongly influence purchasing behavior.
+- There are certain issues related to logistics. Even a few of the highest-performers products show complaints. Additionally, there is a significant quantity of low-quality review sellers who have sold a considerable amount of products.
+- Customer financing preferences depend on the type of goods, particularly for expensive or long-term items.
+Based on these findings, Olist would benefit from:
 
-Based on these findings, Asprice Makeup would benefit from:
-
-- Implementing a loyalty program
-- Focusing marketing efforts on high-performing products
-- Introducing targeted promotions
-- Expanding wholesale distribution
+- Leverage company growth through marketing ads across Brazil to sustain momentum and expand reach.
+- Sellers-focused campaigns to encourage sales activity, providing training, incentives or
+promotional tools to activate inactive sellers.
+- Marketing campaigns focused on outperforming products and categories
+- Balance freight values for underperforming states to encourage sales in these places
+- Watch out for logistics and seller complaints by strengthening quality control, improving delivery reliablity, and monitoring seller performance.
+- Take advantage of customer financing preferences through targeted marketing and financial strategies
+- Implement customer engagement programs to increase repeat purchases.
 
 Below is a sample overview from the Tableau dashboard. The full interactive dashboards can be accessed online:  
 [Customer Dashboard](https://public.tableau.com/app/profile/emmanuel.casta.o/viz/AspricemakeupDasboard/CustomerDashboard) |  
