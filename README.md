@@ -61,7 +61,8 @@ Key insights include:
 - Outperforming states show lower freight values, while underperforming states tend to have higher freight values. This indicates that shipping cost strongly influence purchasing behavior.
 - There are certain issues related to logistics. Even a few of the highest-performers products show complaints. Additionally, there is a significant quantity of low-quality review sellers who have sold a considerable amount of products.
 - Customer financing preferences depend on the type of goods, particularly for expensive or long-term items.
-Based on these findings, Olist would benefit from:
+
+### Based on these findings, Olist would benefit from:
 
 - Leverage company growth through marketing ads across Brazil to sustain momentum and expand reach.
 - Sellers-focused campaigns to encourage sales activity, providing training, incentives or
