@@ -77,12 +77,17 @@ promotional tools to activate inactive sellers.
 
 ## Insights Deep Dive
 
-### Customer Loyalty
+### Historical Sales Performance
 
-- Asprice currently has no formal loyal customer program. “Potential loyal customers” are defined as those with 2+ purchases and over 200,000 COP spent.
+- All months shows a consistent growth per year, indicating a general growth trend in sales per year.
+This suggests that Olist has been strengthening its presence in the Brazilian market over time. 
 - This group makes up only **15% of customers** but contributes **36% of total sales**.
-- During the toughest months (September and October), they generated about **40% of total revenue**, helping stabilize sales.
-- They have the highest Average Order Value (AOV) and number of orders, making them a key segment for future loyalty strategies.
+  
+- Based on the available data, we can infer that Olist may exhibit a seasonality pattern during the first 2 quarters of the year. However, due to the limited data across full yearly cycles, 
+this conclusion cannot be confirmed with certainty. Since the dataset only extends to September 2018, we lack information on the final quarter of that year, preventing a complete comparison between first-quarter and last-quarter sales performance.
+
+- The increase in sales observed during the first months of 2018 may be attributed to Olist�s overall growth rather than to a definitive seasonality pattern. 
+With the current dataset, we cannot reliably distinguish between structural growth and seasonal effects.
 
 ![Customer Loyalty Snapshot](https://github.com/user-attachments/assets/9bb208e5-6a2c-481d-984c-f8b30292b3dc)
 
