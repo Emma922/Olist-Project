@@ -81,7 +81,6 @@ promotional tools to activate inactive sellers.
 
 - All months shows a consistent growth per year, indicating a general growth trend in sales per year.
 This suggests that Olist has been strengthening its presence in the Brazilian market over time. 
-- This group makes up only **15% of customers** but contributes **36% of total sales**.
   
 - Based on the available data, we can infer that Olist may exhibit a seasonality pattern during the first 2 quarters of the year. However, due to the limited data across full yearly cycles, 
 this conclusion cannot be confirmed with certainty. Since the dataset only extends to September 2018, we lack information on the final quarter of that year, preventing a complete comparison between first-quarter and last-quarter sales performance.
@@ -135,23 +134,46 @@ Sales Performance by State (to consult state details and accurate specific infor
 
 ![State Performance](https://github.com/user-attachments/assets/fcf24d00-c86a-41f8-8dd3-95a2bdaf5edc)
 
+### Review score and Service Quality
 
+- Several sellers show low average ratings (<3.0), suggesting operational deficiencies such as late shipments, poor handling, or inconsistent service. 
+These sellers should be monitored closely and may require training or performance improvement plans.
+
+- Delivery delays significantly reduce customer satisfaction, as evidenced by the lower average review scores for delayed orders.
+This reinforces the importance of logistics efficiency and accurate delivery-time estimates.
+
+- Categories with both high sales volume and high review scores represent strong performance areas. 
+In contrast, categories with low review scores signal opportunities for targeted service or product improvements.
+
+- Moveis_escritorio is a high-priority category for intervention because it combines low review scores with high order volume, 
+meaning a large number of customers are being negatively affected.
+
+- Cama_mesa_banho is another key category: despite being among the highest in revenue and total orders, it also shows one of the lowest average review scores. 
+This mismatch indicates a risk of long-term customer dissatisfaction in a high-impact category.
+
+- Seller 7c67e1448b00f6e969d365cea6b010ab stands out as a critical case: despite selling over 1,300 products, 
+the seller maintains the lowest average review scores, suggesting severe operational or quality-related issues.
+
+- Improving logistics reliability and monitoring low-performing sellers could significantly raise customer satisfaction across the platform.
+
+### Order payments type
+
+- High-installment sellers vary significantly across product categories. 
+
+- Categories like 'eletrodomesticos_2', 'moveis_decoracao', and 'automotivo' have the highest average installments, suggesting reliance on financing for higher-priced or durable goods.
+
+- Customer financing preferences align with product type, particularly for expensive or long-term purchase items. 
 
 
 ## Recommendations
 
 Based on the analysis, the following actions are recommended to the stakeholder team:
 
-- **Customer Loyalty is a strong growth opportunity:**  
-  Develop and launch a formal loyalty program rewarding repeat customers with gifts, special offers, or exclusive bundles to encourage retention.
-
-- **Encourage purchases of top brands:**  
-  Run targeted promotions or marketing campaigns promoting the top 5 brands to increase average order value (AOV) and sales volume.
-
-- **Promote high-performing products at checkout:**  
-  Recommend these products during the checkout process and offer exclusive discounts to increase sales and AOV.
-
-- **Expand and improve wholesale sales:**  
-  Maintain current wholesale channels, create different wholesale categories to reach a broader customer base, and increase wholesale options.
-
-- **Launch retention-focused discounts:**  
+- **Company growth:** Leverage company growth through marketing ads across Brazil to sustain momentum and expand reach.
+- **Seller campaigns:** Sellers-focused campaigns to encourage sales activity, providing training, incentives or
+promotional tools to activate inactive sellers.
+- **Marketing campaigns:** Marketing campaigns focused on outperforming products and categories
+- **Underperforming teams:** Balance freight values for underperforming states to encourage sales in these places
+- **Logistic and seller:** complaints campaigns:*Watch out for logistics and seller complaints by strengthening quality control, improving delivery reliablity, and monitoring seller performance.
+- **Customer preferences:**(Take advantage of customer financing preferences through targeted marketing and financial strategies
+- **Customer engagement:** Implement customer engagement programs to increase repeat purchases.
