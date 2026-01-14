@@ -89,7 +89,8 @@ this conclusion cannot be confirmed with certainty. Since the dataset only exten
 - The increase in sales observed during the first months of 2018 may be attributed to Olist�s overall growth rather than to a definitive seasonality pattern. 
 With the current dataset, we cannot reliably distinguish between structural growth and seasonal effects.
 
-![Customer Loyalty Snapshot](https://github.com/user-attachments/assets/9bb208e5-6a2c-481d-984c-f8b30292b3dc)
+![Customer Loyalty Snapshot](https://github.com/user-attachments/assets/5fb94855-efe2-4ff0-b9db-9a7a6ce6c7a5>)
+
 
 ### Products and Brand Distribution
 
