@@ -169,11 +169,10 @@ the seller maintains the lowest average review scores, suggesting severe operati
 
 Based on the analysis, the following actions are recommended to the stakeholder team:
 
-- **Company growth:** Leverage company growth through marketing strategies across Brazil to sustain momentum and expand reach.
-- **Seller campaigns:** Sellers-focused campaigns to encourage sales activity, providing training, incentives or
-promotional tools to activate inactive sellers.
-- **Marketing campaigns:** Marketing campaigns focused on outperforming products and categories
-- **Underperforming teams:** Balance freight values for underperforming states to encourage sales in these places
-- **Logistic and seller complaints:** Watch out for logistics and seller complaints by strengthening quality control, improving delivery reliablity, and monitoring seller performance.
-- **Customer preferences:** Take advantage of customer financing preferences through targeted marketing and financial strategies
-- **Customer loyalty and engagement:** Implement customer engagement programs to increase loyalty and repeat purchases
+- **Expand market reach:** Leverage Olist’s steady growth with nationwide marketing campaigns to sustain momentum and attract new customers.
+- **Activate inactive sellers:** Launch seller‑focused initiatives (training, incentives, promotional tools) to increase participation and revenue contribution.
+- **Prioritize high‑performing categories:** Invest in marketing and inventory for top categories and products that consistently drive sales.
+- **Optimize freight policies:** Balance shipping costs across states to reduce barriers in underperforming regions and boost demand.
+- **Strengthen logistics and quality control:** Improve delivery reliability, monitor low‑rated sellers, and address product/service complaints to enhance customer satisfaction.
+- **Leverage financing preferences:** Tailor marketing and payment options to categories where installment plans are most common, supporting higher‑value purchases.
+- **Build customer loyalty programs:** Implement engagement strategies to encourage repeat purchases and reduce reliance on one‑time buyers.
